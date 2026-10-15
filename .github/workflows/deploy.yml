@@ -32,9 +32,13 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
+      # `actions/checkout` fetches the pinned submodule commit. A shallow
+      # update can miss a commit that is not a branch tip, so fall back to
+      # a full fetch when the shallow one fails.
       - name: Check out the field-assist submodule
         run: |
-          git submodule update --init --depth 1 vendor/field-assist
+          git submodule update --init --depth 1 vendor/field-assist || \
+            git submodule update --init vendor/field-assist
           git -C vendor/field-assist sparse-checkout set \
             docs/scripting docs/spec docs/examples
 
