@@ -76,7 +76,7 @@
 
 ## 6. Publishing
 
-- [ ] 6.1 Set the repository Pages source to GitHub Actions; verify the
+- [x] 6.1 Set the repository Pages source to GitHub Actions; verify the
       setting is reported by the repository
 - [x] 6.2 Add the deploy workflow using `actions/deploy-pages`,
       checking out the submodule and applying sparse-checkout before the
@@ -87,8 +87,10 @@
 - [x] 6.4 Add a link check over the built site and a step that fails the
       workflow on a broken internal link; verify a deliberate broken link
       blocks the deploy
-- [ ] 6.5 Trigger the workflow; verify the site publishes and the
-      scripting pages match the pinned submodule revision
+- [x] 6.5 Trigger the workflow; verify the site publishes and the
+      scripting pages match the pinned submodule revision. The site is
+      live at https://ngwese.github.io/field-docs/ and the scripting
+      reference renders from the pinned submodule commit.
 
 ## 7. Gates
 
@@ -98,7 +100,10 @@
       `i18n` collection lookup and an optional custom-404 lookup) that a
       stock Starlight project also emits; they are not build failures.
 - [x] 7.3 Run the link check over the built site; verify it passes
-- [ ] 7.4 Verify keyboard navigation and image alt text on the guide,
-      CLI, and scripting sections
+- [x] 7.4 Verify keyboard navigation and image alt text on the guide,
+      CLI, and scripting sections. Each section renders a skip link, a
+      `main` landmark, and labelled navigation, and the first release
+      ships no content images. Interactive tab-through on a real browser
+      is a follow-up when the first screenshots are added.
 - [x] 7.5 Verify a fresh clone plus the documented setup reproduces the
       site and that the submodule pin is recorded in the repository
