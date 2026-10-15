@@ -1,0 +1,86 @@
+schema: spec-driven
+
+# Project context — injected into all OpenSpec artifacts.
+context: |
+  field-docs is a static documentation site built with Astro. It publishes
+  product and reference documentation as pre-rendered, statically hosted
+  pages; there is no server runtime and no per-request backend.
+
+  Stack: Astro with TypeScript, Content Collections (Markdown/MDX under
+  src/content/) as the source of truth for authored pages, and Starlight
+  (or equivalent docs layout) for navigation, search, and theming. Styling
+  leans on Astro components and scoped CSS; keep client-side JavaScript
+  minimal unless a feature requires interactivity.
+
+  Build and output: `astro build` emits fully static assets. `astro check`
+  performs type and content validation. The site must build with zero errors
+  and zero warnings; treat broken links and unresolved content references as
+  build failures. Do not add features that require an SSR adapter unless a
+  change explicitly targets one.
+
+  Content model: pages are content-collection entries validated by a
+  schema (Zod) in src/content/config.ts. Frontmatter fields (title,
+  description, sidebar/order, draft) are part of the contract — changes to
+  them are user-visible and belong in specs. Slugs and URLs are a public
+  interface; changing them requires redirects.
+
+  Assets: screenshots, diagrams, and audio/video live under src/assets or
+  public/. Large binaries are tracked with Git LFS per .gitattributes (images,
+  audio, video, PDFs); never commit binaries directly. Reference images from
+  content collections so Astro can optimize them; do not hand-write
+  <img> tags around optimized assets.
+
+  Accessibility and performance are quality gates, not extras: pages must be
+  navigable by keyboard, images need alt text, and adding heavy client
+  scripts or large unoptimized media must be justified in the design.
+
+  Commits use Conventional Commits (imperative mood, `docs:`/`feat:`/`chore:`
+  scope), hard-wrapped to 80 characters. A commit message, and any completion
+  summary a workflow produces, describes only the change it accompanies —
+  never task numbers, completion status or counts, progress, or blockers.
+
+# Per-artifact rules — applied only when writing that artifact.
+rules:
+  proposal:
+    - Include a Non-goals section.
+    - Name the affected routes, content collections, and components.
+    - State the user-visible outcome (what a reader can find or do) rather
+      than describing file edits.
+    - Call out URL/slug or content-schema changes as compatibility concerns.
+  specs:
+    - Write behavior-first deltas using ADDED, MODIFIED, and REMOVED sections.
+    - Prefer Given/When/Then scenarios describing rendered output, navigation,
+      and build-time validation.
+    - Treat build success, link integrity, and content-schema validity as
+      observable requirements.
+  design:
+    - Prefer Astro components, Content Collections, and static rendering over
+      client-side frameworks or SSR.
+    - Justify any added client-side JavaScript, third-party embed, or
+      non-static adapter.
+    - Describe how the asset pipeline (image optimization, LFS-tracked media)
+      and accessibility requirements are satisfied.
+  tasks:
+    - Break work into small checkbox tasks suitable for focused commits.
+    - Include `astro check` and `astro build` gates (no errors, no warnings)
+      and a link/asset verification step for any content-touching work.
+    - Name the affected collections, components, and routes explicitly.
+
+# Per-operation guidance — advisory for apply and archive workflows.
+operations:
+  apply:
+    guidance:
+      - Run `astro check` and `astro build` and resolve all errors and
+        warnings before considering work complete.
+      - Verify internal links resolve and referenced images/assets exist and
+        carry alt text.
+      - Keep client-side JavaScript minimal; do not add an SSR adapter or
+        runtime dependency without an explicit spec decision.
+      - Write commit messages that describe only the change in the commit —
+        never task numbers, completion status or counts, progress, or
+        blockers.
+  archive:
+    guidance:
+      - Keep the completion summary concise and free of task numbers,
+        completion status or counts, progress, and blockers.
+      - Confirm which main specs under openspec/specs/ were created or updated.
