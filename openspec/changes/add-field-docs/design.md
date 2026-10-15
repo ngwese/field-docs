@@ -15,7 +15,8 @@ user-facing:
 - `field-assist`'s `docs/examples/` — runnable Lua samples.
 
 The site is static and deployed to GitHub Pages as a project site.
-Versions at planning time: Astro 7.3.x, Starlight 0.42.x, Node.js 22.12+.
+Versions at planning time: Astro 7.3.x, Starlight 0.42.x. Astro requires
+Node.js 22.22+, which `.nvmrc` and the `engines` field pin.
 
 ## Goals / Non-Goals
 

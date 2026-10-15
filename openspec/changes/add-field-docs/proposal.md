@@ -68,7 +68,7 @@ that publishes that documentation.
 - **Assets:** documentation images live under `src/assets` or `public/`
   and follow the LFS policy in `.gitattributes`. No binaries are added by
   this change.
-- **Dependencies:** adds Node.js 22.12+, pnpm, Astro, and Starlight. The
+- **Dependencies:** adds Node.js 22.22+, npm, Astro, and Starlight. The
   `field-assist` Rust workspace is unaffected.
 - **External:** GitHub Pages and GitHub Actions. The submodule depends on
   the `field-assist` repository being reachable from CI.

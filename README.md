@@ -18,7 +18,7 @@ The published site lives at <https://ngwese.github.io/field-docs/>.
 
 ## Local development
 
-Node.js 22.12 or newer is required.
+Node.js 22.22 or newer is required (see `.nvmrc`).
 
 ```bash
 git submodule update --init --depth 1 vendor/field-assist
