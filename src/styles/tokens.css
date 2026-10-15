@@ -1,78 +1,49 @@
 /*
-  tokens.css -- the single source of design tokens for the site.
+  tokens.css -- site-specific design tokens.
 
-  Declare colors, type, spacing, and radii here and nowhere else. Starlight
-  reads its own custom properties (--sl-*), so this file both defines the
-  site's tokens and maps them onto Starlight's names. A future landing page
-  can import the same token block and share the visual language.
+  The base palette and radii come from the `starlight-theme-black` plugin
+  (Shadcn-inspired). This file holds what is specific to FieldAssist: the
+  type faces, the accent, and the prose measure. It loads after the
+  theme's styles so it can adjust them without a specificity fight.
 
-  Colors use light-dark(): the first value applies in light mode, the second
-  in dark mode. The Starlight theme switch sets data-theme on the root, and
-  Starlight's dark variables are scoped to that attribute.
+  Keep this file small. A value that should be shared with a future landing
+  page belongs here.
 */
-
-:root {
-  color-scheme: light dark;
-
-  /* Palette. A warm off-white canvas, near-black ink, one accent. */
-  --color-bg: light-dark(#f3f3f1, #101010);
-  --color-surface: light-dark(#ffffff, #171717);
-  --color-text: light-dark(#1a1a18, #edede7);
-  --color-muted: light-dark(#63635c, #8f8f87);
-  --color-border: light-dark(#dcdcd6, #2b2b28);
-  --color-accent: light-dark(#2f4fd8, #93a8ff);
-  --color-accent-hover: light-dark(#233ba6, #b9c6ff);
-
-  /* Type. One grotesque for text and headings, one mono for code. The
-     stacks fall back to system faces; webfonts can be added later without
-     changing any component. */
-  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-
-  /* Layout */
-  --measure: 44rem;
-  --radius: 0.375rem;
-  --space-block: 1rem;
-}
 
 /*
-  Map the site tokens onto Starlight. Starlight consumes these --sl-*
-  variables; overriding them here rethemes every page without touching
-  Starlight component styles.
+  Type faces, shared with the FieldAssist landing site: Hanken Grotesk for
+  text and headings, DM Mono for code and metadata. Self-hosted through
+  Fontsource; only the weights that appear on the page are loaded.
+
+  `starlight-theme-black` sets `--sl-font: var(--font-geist)` and loads
+  Geist into those variables. It does this through Astro's `fonts` config,
+  which replaces rather than merges the root `fonts` array, so there is no
+  hook to swap the family. Redefining the variables here is the stable
+  lever: the theme's own rules then resolve to our faces.
 */
-:root,
-:root[data-theme='light'] {
-  --sl-color-accent-low: color-mix(in srgb, var(--color-accent) 18%, var(--color-bg));
-  --sl-color-accent: var(--color-accent);
-  --sl-color-accent-high: var(--color-accent-hover);
-  --sl-color-white: var(--color-text);
-  --sl-color-gray-1: var(--color-text);
-  --sl-color-gray-2: var(--color-muted);
-  --sl-color-gray-3: var(--color-muted);
-  --sl-color-gray-4: var(--color-border);
-  --sl-color-gray-5: var(--color-border);
-  --sl-color-gray-6: var(--color-surface);
-  --sl-color-gray-7: var(--color-surface);
-  --sl-color-black: var(--color-bg);
-}
+@import '@fontsource/hanken-grotesk/200.css';
+@import '@fontsource/hanken-grotesk/300.css';
+@import '@fontsource/hanken-grotesk/400.css';
+@import '@fontsource/dm-mono/300.css';
+@import '@fontsource/dm-mono/400.css';
 
-:root[data-theme='dark'] {
-  --sl-color-accent-low: color-mix(in srgb, var(--color-accent) 25%, var(--color-bg));
-  --sl-color-accent: var(--color-accent);
-  --sl-color-accent-high: var(--color-accent-hover);
-  --sl-color-white: var(--color-text);
-  --sl-color-gray-1: var(--color-text);
-  --sl-color-gray-2: var(--color-muted);
-  --sl-color-gray-3: var(--color-muted);
-  --sl-color-gray-4: var(--color-border);
-  --sl-color-gray-5: var(--color-border);
-  --sl-color-gray-6: var(--color-surface);
-  --sl-color-gray-7: var(--color-surface);
-  --sl-color-black: var(--color-bg);
-}
-
-/* Type faces, applied site-wide. */
 :root {
-  --sl-font: var(--font-body);
-  --sl-font-mono: var(--font-mono);
+  --font-geist: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* FieldAssist's accent, used for links and active navigation. The theme
+     derives its grays from neutral; the accent is the one hue the site
+     owns. */
+  --sl-color-accent-low: var(--blue-low);
+  --sl-color-accent: var(--blue);
+  --sl-color-accent-high: var(--blue-high);
+
+  /* Layout. The measure keeps prose at a comfortable reading width. */
+  --site-measure: 48rem;
+}
+
+/* Constrain prose to the site measure. Code, tables, and images keep the
+   full column width so they do not wrap awkwardly. */
+.sl-markdown-content {
+  --sl-content-width: var(--site-measure);
 }
