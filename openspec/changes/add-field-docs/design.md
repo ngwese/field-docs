@@ -78,21 +78,30 @@ attach frontmatter.
 - Publish the reference as a package — extra release machinery for a
   small content set.
 
-### 3. The sync step adds frontmatter only
+### 3. The sync step adds frontmatter and normalizes links
 
-**Choice:** The sync step copies reference pages and injects the
-Starlight `title` each page needs, deriving it from the module name. It
-does not rewrite links or headings; `field-assist` owns those, and its
-own check enforces them.
+**Choice:** The sync step copies reference pages, injects the Starlight
+`title` each page needs (derived from the module name), and rewrites
+reference links to absolute site paths. It does not change headings or
+prose; `field-assist` owns those, and its own check enforces them.
 
-**Rationale:** Transformation logic in the consuming repository is a
-second place to maintain the same structure, and it hides breakage from
-the repository that owns the content.
+**Rationale:** `field-assist` writes links relative to its own
+`docs/scripting/` tree. Starlight rewrites a relative `.md` link only
+when it appears in paragraph content; a link inside a table cell is left
+untouched, and the reference is largely tables. Rewriting to absolute
+site paths makes every link resolve from any page and inside tables.
+Links that point outside the site (`../spec`, `../../examples`) have no
+target, so the sync unwraps them to plain text rather than shipping a
+dead link. This is presentation, not content: no meaning changes.
 
 **Alternatives considered:**
 
-- Rewrite links during sync — duplicates `field-assist`'s check in a
-  weaker form.
+- Leave the links as `field-assist` wrote them — table-cell links ship
+  broken, which the link check then fails on.
+- Fix the links in `field-assist` as absolute site paths — couples the
+  source repository to this site's URL and base path.
+- Convert the reference tables to non-table layout — rewrites content to
+  satisfy a renderer.
 
 ### 4. Authored content lives here; specs are not published
 

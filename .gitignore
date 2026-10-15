@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+
+# Synced from the vendor/field-assist submodule by scripts/sync-reference.mjs.
+# The submodule pin is the source of truth; this directory is regenerated
+# before dev and build.
+src/content/docs/scripting/
+
+# Editor / OS scratch
+.DS_Store
